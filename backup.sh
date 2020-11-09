@@ -17,6 +17,7 @@ function total_directories {
         find $1 -type d | wc -l
 }
 
+# This function and the next one, counts the amount of the zipped files
 function total_archived_directories {
         tar -tzf $1 | grep  /$ | wc -l
 }
@@ -27,6 +28,7 @@ function total_archived_files {
 
 tar -czf $output $input 2> /dev/null
 
+# counting the files of input dir and the results files
 src_files=$( total_files $input )
 src_directories=$( total_directories $input )
 
@@ -38,5 +40,12 @@ echo "Directories to be included: $src_directories"
 echo "Files archived: $arch_files"
 echo "Directories archived: $arch_directories"
 
-echo "Backup of $input completed! Details about the output backup file:"
-ls -l $output
+# if the number of files are similar it means the backup process was correctly
+# done.
+if [ $src_files -eq $arch_files ]; then
+        echo "Backup of $input completed!"
+        echo "Details about the output backup file:"
+        ls -l $output
+else
+        echo "Backup of $input failed!"
+fi
