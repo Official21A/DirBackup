@@ -2,6 +2,7 @@
 
 # This bash script is used to backup a user's home directory to /tmp/.
 
+# -z checks if the user inputs anything or not
 if [ -z $1 ]; then
         user=$(whoami)
 else
@@ -9,7 +10,7 @@ else
                 echo "Requested $1 user home directory doesn't exist."
                 exit 1
         fi
-        user=$1                                                                                                                                                                                                                                                                
+        user=$1 # if the dir exist then we set it to the file path
 fi
 
 input=/home/$user
