@@ -68,4 +68,7 @@ function backup {
 # Program starts to backup every dir that user inputs
 for directory in $*; do
     backup $directory
+    let all=$all+$arch_files+$arch_directories
 done;
+
+echo "TOTAL FILES AND DIRECTORIES: $all"
