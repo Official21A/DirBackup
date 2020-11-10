@@ -51,10 +51,28 @@ function install_all {
     echo "Run the program again."
 }
 
+# this function checks whats needed for shell script
+function check_requirments {
+    if ! [[ "$(python3 -V)" =~ "Python 3" ]]; then
+        install_python
+    fi
+    if ! [[ "$(pip3 --version)" =~ "pip 1" ]]; then
+        install_pip
+    fi
+    if ! [[ "$(python3 -h venv)" =~ "usage: python3" ]]; then
+        install_venv
+    fi
+}
+
 
 # shell execute
 if $1 = "Reset"; then
     install_all
+    exit 1
+fi
+
+if $1 = "Check"; then
+    check_requirments
     exit 1
 fi
 
