@@ -19,6 +19,44 @@ function create_env {
     python3 -m venv name # create environment
 }
 
+# this function installs python3
+function install_python {
+    sudo apt-get update
+    sudo apt-get install python3.6
+    python3 --version
+    echo "Python3 is now installed on your system."
+}
+
+# this function installs pip3
+function install_pip {
+    sudo apt-get update
+    sudo apt install python3-pip
+    pip3 --version
+    echo "Pip3 is now installed on your system."
+}
+
+# this function installs virtualenv
+function install_venv {
+    sudo apt-get update
+    pip3 install virtualenv
+    pip3 freeze | grep virtualenv
+    echo "Virualenv is now installed on your python3."
+}
+
+# this function installs python3 and pip3 and virtualenv on user system
+function install_all {
+    install_python
+    install_pip
+    install_venv
+    echo "Run the program again."
+}
+
+
+# shell execute
+if $1 = "Reset"; then
+    install_all
+    exit 1
+fi
 
 # first we check , if user system supports python and pip ?
 if [[ "$(python3 -V)" =~ "Python 3" ]]; then
@@ -30,11 +68,5 @@ if [[ "$(python3 -V)" =~ "Python 3" ]]; then
 else
     # this mean the user system does not support python3
     echo "System not supporting python3. Enter your pass word to install it."
-    sudo apt-get update
-    sudo apt-get install python3.6
-    sudo apt install python3-pip
-    python3 --version
-    pip3 --version
-    pip3 install virtualenv
-    echo "Python3 and pip3 installed successfully. Run the program again."
+    install_all
 fi
