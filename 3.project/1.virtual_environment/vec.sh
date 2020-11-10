@@ -10,9 +10,11 @@ function create_env {
     fi
 
     # dir check
-    if [ -d "./$1" ]; then
+    if [ -d "/$1" ]; then
       # if ve was already been created
       echo "Sorry, already have a virtual environment with the name $1."
       exit -1
     fi
+
+    python3 -m venv name
 }
