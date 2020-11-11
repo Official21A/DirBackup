@@ -16,7 +16,7 @@ function create_env {
       exit -1
     fi
 
-    python3 -m venv name # create environment
+    python3 -m venv $name # create environment
 }
 
 # this function installs python3
@@ -62,16 +62,17 @@ function check_requirments {
     if ! [[ "$(python3 -h venv)" =~ "usage: python3" ]]; then
         install_venv
     fi
+    echo "Requirements checked."
 }
 
 
 # shell execute
-if $1 = "Reset"; then
+if [ $1 = "Reset" ]; then
     install_all
     exit 1
 fi
 
-if $1 = "Check"; then
+if [ $1 = "Check" ]; then
     check_requirments
     exit 1
 fi
