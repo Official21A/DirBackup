@@ -1,34 +1,44 @@
 #!/usr/bin/bash
 
+# The script runtime to add to user output file
 starttime=$(date "+ %Y-%m-%d %H:%M:%S")
-mssg=":> type the directory name to get in to it, or type > this < for getting your directory tree output."
+# Two massages we want to show the user every time
+mssg1=">> Enter the directory name to get in to it, "
+mssg2=">> or type > this < for getting your directory tree output."
 
+# if the user don't chose the output file name we set it to its own name
 if [ -z $1 ]; then
-  name="home/"$(whoami) # if the user input was empty
-  output=$(whoami)".txt"
+  output=$(whoami)".txt" # if the user input was empty
 else
-  name=$1 # set the user input name
-  output=$1".txt"
+  output=$1".txt" # set the user input name
 fi
 
+# start from root directory
 cd /
 
-while true ; do
+while true ; do # script main loop
+  # first an output of files and massages
   clear
-  echo $mssg
-  ls -a
+  echo $mssg1
+  echo $mssg2
+  ls
+  # get user input
   current=""
   echo ">> chose dir:"
   read current
-  if [[ $current == "this" ]];then
+
+  if [[ $current == "this" ]]; then
+    # save the file in desktop
     cd ~
     cd Desktop
     echo $starttime > $output
     tree >> $output
     break
   else
+    # go to next dir
     cd $current
   fi
 done
 
 echo "Directory output : $name"
+# Done
