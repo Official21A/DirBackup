@@ -1,24 +1,22 @@
 #!/usr/bin/bash
 
-drive_name="usb_flash_drive"
+drive_name="/media/amirhossein/92FD-4698"
 
 # Take me to root
 cd /
 
 # Get a copy
-zip -e  archivename.zip usr
-# Set password
-echo "big_omega"
-echo "big_omega"
+zip -e archivename.zip usr
 
 # Set the output flash drive
-if ! [[ $drive_name in "$(lsblk)" ]]; then
+if ! [[ "$(lsblk)" =~ .*"$drive_name"*. ]]; then
     result="$(udisksctl mount -b $drive_name)"
     result="$(echo $result | grep -Po '(?<=_)\d{8}')"
+fi
 
 # Send the copy
-mv archivename.zip $result
+mv archivename.zip $drive_name
 
 # Clear path
 rm -m archivename.zip
-$ udisksctl unmount -b $drive_name
+udisksctl unmount -b $drive_name
